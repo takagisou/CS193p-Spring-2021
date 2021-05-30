@@ -156,12 +156,22 @@ struct ContentView: View {
         let rowMax = Int(floor(height / cardHeight))
         let cardMax = colMax * rowMax
         
+        let debug = """
+            =====
+            cardCount: \(cardCount),
+            width, height: \(width), \(height),
+            cardWidth, cardHeight: \(cardWidth), \(cardHeight),
+            colMax, rowMax: \(colMax), \(rowMax),
+            cardMax: \(cardMax)
+            """
+        // print(debug)
+        
         if cardCount <= cardMax {
             return cardWidth
         }
         
         return calcCardWidth(
-            cardWidth: cardWidth / 2,
+            cardWidth: width / CGFloat(colMax + 1),
             cardCount: cardCount,
             width: width,
             height: height,
