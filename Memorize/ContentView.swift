@@ -21,6 +21,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            Text("Memorize!").font(.title)
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]){
                     ForEach(emojis[0..<emojiCount], id: \.self, content: { emoji in
