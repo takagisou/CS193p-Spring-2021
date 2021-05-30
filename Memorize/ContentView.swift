@@ -42,6 +42,10 @@ struct ContentView: View {
             }
         }
         
+        var initialEmojiCount: Int {
+            return Int.random(in: 4..<emojis.count)
+        }
+        
         var emojis: [String] {
             switch self {
             case .vehicles:
@@ -63,9 +67,6 @@ struct ContentView: View {
         }
     }
     
-    
-    @State
-    var emojiCount = 20
     @State
     var theme: Theme = .vehicles
     
@@ -74,7 +75,7 @@ struct ContentView: View {
             Text("Memorize!").font(.title)
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]){
-                    ForEach(theme.emojis.shuffled()[0..<emojiCount], id: \.self, content: { emoji in
+                    ForEach(theme.emojis.shuffled()[0..<theme.initialEmojiCount], id: \.self, content: { emoji in
                         CardView(content: emoji)
                             .aspectRatio(2/3, contentMode: .fit)
                     })
@@ -103,25 +104,25 @@ struct ContentView: View {
     }
     
     
-    var remove: some View {
-        Button(action: {
-            if 1 < emojiCount {
-                emojiCount -= 1
-            }
-        }, label: {
-            Image(systemName: "minus.circle")
-        })
-    }
-    
-    var add: some View {
-        Button(action: {
-            if emojiCount < theme.emojis.count {
-                emojiCount += 1
-            }
-        }, label: {
-            Image(systemName: "plus.circle")
-        })
-    }
+//    var remove: some View {
+//        Button(action: {
+//            if 1 < emojiCount {
+//                emojiCount -= 1
+//            }
+//        }, label: {
+//            Image(systemName: "minus.circle")
+//        })
+//    }
+//
+//    var add: some View {
+//        Button(action: {
+//            if emojiCount < theme.emojis.count {
+//                emojiCount += 1
+//            }
+//        }, label: {
+//            Image(systemName: "plus.circle")
+//        })
+//    }
 }
 
 
