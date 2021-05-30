@@ -69,16 +69,35 @@ struct ContentView: View {
     
     @State
     var theme: Theme = .vehicles
+    @State
+    var count = Theme.vehicles.initialEmojiCount
     
     var body: some View {
         VStack {
-            Text("Memorize!").font(.title)
-            ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]){
-                    ForEach(theme.emojis.shuffled()[0..<theme.initialEmojiCount], id: \.self, content: { emoji in
-                        CardView(content: emoji)
-                            .aspectRatio(2/3, contentMode: .fit)
-                    })
+            HStack{
+                Text("Memorize!").font(.title)
+                // debug
+                Button(action: {
+                    count += 1
+                }, label: {
+                    Text("Increment")
+                })
+                Button(action: {
+                    count = 1
+                }, label: {
+                    Text("Reset")
+                })
+                
+            }
+            GeometryReader { geo in
+                ScrollView {
+                    let width = calcCardWidth(cardWidth: geo.size.width, cardCount: count, width: geo.size.width, height: geo.size.height, aspect: 2/3)
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: width), spacing: 0)], spacing: 0){
+                        ForEach(theme.emojis.shuffled()[0..<count], id: \.self, content: { emoji in
+                            CardView(content: emoji)
+                                .aspectRatio(2/3, contentMode: .fit)
+                        })
+                    }
                 }
             }
             .foregroundColor(.red)
@@ -88,6 +107,7 @@ struct ContentView: View {
                 ForEach(Theme.allCases, id: \.self, content: { theme in
                     Button(action: {
                         self.theme = theme
+                        count = theme.initialEmojiCount
                     }, label: {
                         VStack{
                             Image(systemName: theme.systemName)
@@ -98,31 +118,56 @@ struct ContentView: View {
                 })
             }
             .font(.largeTitle)
-//            .padding(.horizontal)
+            //            .padding(.horizontal)
         }
         .padding(.horizontal)
     }
     
     
-//    var remove: some View {
-//        Button(action: {
-//            if 1 < emojiCount {
-//                emojiCount -= 1
-//            }
-//        }, label: {
-//            Image(systemName: "minus.circle")
-//        })
-//    }
-//
-//    var add: some View {
-//        Button(action: {
-//            if emojiCount < theme.emojis.count {
-//                emojiCount += 1
-//            }
-//        }, label: {
-//            Image(systemName: "plus.circle")
-//        })
-//    }
+    //    var remove: some View {
+    //        Button(action: {
+    //            if 1 < emojiCount {
+    //                emojiCount -= 1
+    //            }
+    //        }, label: {
+    //            Image(systemName: "minus.circle")
+    //        })
+    //    }
+    //
+    //    var add: some View {
+    //        Button(action: {
+    //            if emojiCount < theme.emojis.count {
+    //                emojiCount += 1
+    //            }
+    //        }, label: {
+    //            Image(systemName: "plus.circle")
+    //        })
+    //    }
+    
+    func calcCardWidth(cardWidth: CGFloat, cardCount:Int, width: CGFloat, height: CGFloat, aspect: CGFloat = 2/3) -> CGFloat {
+        
+        let cardHeight = cardWidth / aspect
+        
+        if cardCount == 1 {
+            return cardWidth
+        }
+        
+        let colMax = Int(floor(width / cardWidth))
+        let rowMax = Int(floor(height / cardHeight))
+        let cardMax = colMax * rowMax
+        
+        if cardCount <= cardMax {
+            return cardWidth
+        }
+        
+        return calcCardWidth(
+            cardWidth: cardWidth / 2,
+            cardCount: cardCount,
+            width: width,
+            height: height,
+            aspect: aspect
+        )
+    }
 }
 
 
