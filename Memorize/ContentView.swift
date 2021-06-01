@@ -16,7 +16,7 @@ struct ContentView: View {
             HStack{
                 Spacer()
                 Button(action: {
-                    // TODO: new game
+                    viewModel.newGame()
                 }, label: {
                     Text("New Game")
                 }).padding(.trailing)
