@@ -12,7 +12,7 @@ struct MemoryGameTheme {
     enum Theme: CaseIterable {
         case vehicles, flags, gestures, foods, animals, nature, sports, music
         
-        var color: String {
+        var colorName: String {
             switch self {
             case .vehicles:
                 return "red"
@@ -83,8 +83,8 @@ struct MemoryGameTheme {
     var emojis: [String] {
         return theme.emojis
     }
-    var color: String {
-        return theme.color
+    var colorName: String {
+        return theme.colorName
     }
     
     lazy var title: String = {

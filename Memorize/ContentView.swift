@@ -26,7 +26,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .foregroundColor(.red)
+            .foregroundColor(viewModel.color)
             .padding(.horizontal)
             Button(action: {
                 viewModel.newGame()
@@ -57,6 +57,31 @@ struct CardView: View {
             } else {
                 shape.fill()
             }
+        }
+    }
+}
+
+extension EmojiMemoryGame {
+    var color: Color {
+        switch self.colorName {
+        case "red":
+            return .red
+        case "pink":
+            return .pink
+        case "blue":
+            return .blue
+        case "orange":
+            return .orange
+        case "gray":
+            return .gray
+        case "green":
+            return .green
+        case "black":
+            return .black
+        case "purple":
+            return .purple
+        default:
+            return .red
         }
     }
 }
