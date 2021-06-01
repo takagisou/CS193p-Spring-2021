@@ -18,7 +18,7 @@ struct ContentView: View {
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]){
                     ForEach(viewModel.cards) { card in
-                        CardView(card: card)
+                        CardView(card: card, color: viewModel.color)
                             .aspectRatio(2/3, contentMode: .fit)
                             .onTapGesture {
                                 viewModel.choose(card)
@@ -26,7 +26,6 @@ struct ContentView: View {
                     }
                 }
             }
-            .foregroundColor(viewModel.color)
             .padding(.horizontal)
             Button(action: {
                 viewModel.newGame()
@@ -41,6 +40,20 @@ struct ContentView: View {
 struct CardView: View {
     
     let card: MemoryGame<String>.Card
+    // extra: 2.3
+    let color: Color?
+    
+    private var gradient: LinearGradient? {
+        guard let color = color else {
+            return nil
+        }
+        let start: UnitPoint = .init(x: 0, y: 1)
+        let end: UnitPoint = .init(x: 1, y: 0)
+        return LinearGradient(
+            gradient: Gradient(colors: [color, .white]),
+            startPoint: start,
+            endPoint: end)
+    }
     
     @State
     var isFaceUp = true
@@ -49,13 +62,25 @@ struct CardView: View {
         let shape = RoundedRectangle(cornerRadius: 20)
         ZStack {
             if card.isFaceUp {
-                shape.fill().foregroundColor(.white)
+                // extra2.3
+                // fill gradient color if color exists
+                if let gradient = gradient {
+                    shape.fill(gradient).foregroundColor(.white)
+                } else {
+                    shape.fill().foregroundColor(.white)
+                }
                 shape.strokeBorder(lineWidth: 3)
                 Text(card.content).font(.largeTitle)
             } else if card.isMatched {
                 shape.opacity(0)
             } else {
-                shape.fill()
+                // extra2.3
+                // fill gradient color if color exists
+                if let gradient = gradient {
+                    shape.fill(gradient)
+                } else {
+                    shape.fill()
+                }
             }
         }
     }
