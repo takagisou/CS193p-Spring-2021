@@ -11,7 +11,7 @@ import SwiftUI
 struct MemoryGame<CardContent> where CardContent: Equatable {
     
     private var chosenIndexes: Set<Int> = []
-    private var points = 0
+    private(set) var points = 0
     
     private(set) var cards: [Card]
     
