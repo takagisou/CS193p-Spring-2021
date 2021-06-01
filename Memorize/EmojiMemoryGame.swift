@@ -81,6 +81,11 @@ class EmojiMemoryGame: ObservableObject {
             let max = 10 < emojis.count ? 10 : emojis.count
             return Int.random(in: 4..<max)
         }
+        
+        var title: String {
+            let emoji = emojis.randomElement()!
+            return "\(emoji)\(name)"
+        }
     }
     
     static func createMemoryGame(theme: Theme = .vehicles) -> MemoryGame<String> {
@@ -95,6 +100,8 @@ class EmojiMemoryGame: ObservableObject {
         return model.cards
     }
     
+    var title = Theme.vehicles.title
+    
     // MARK: - Intent(s)
     
     func choose(_ card: MemoryGame<String>.Card) {
@@ -103,6 +110,7 @@ class EmojiMemoryGame: ObservableObject {
     
     func newGame() {
         let theme = Theme.allCases.randomElement()!
+        title = theme.title
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
     }
 }
