@@ -31,7 +31,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         }
         
         var pairCount: Int {
-            return 4
+            return Int.random(in: 4..<emojis.count)
         }
     }
     
