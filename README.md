@@ -5,7 +5,7 @@ https://www.youtube.com/playlist?list=PLpGHT1n4-mAsxuRxVPv7kj4-dQYoC3VVu
 # Homework
 https://cs193p.sites.stanford.edu/
 
-# Lectture2 
+# Lecture 2
 
 4 emojis
 
@@ -15,7 +15,7 @@ var emojis = ["🚗","🚕","🚙", "🚌"]
 
 24 vehicales
 
-```swfit
+```swift
 var emojis = [
     "🚲", "🚂", "🚁", "🚜", "🚕", "🏎",
     "🚑", "🚓", "🚒", "✈️", "🚀", "⛵️",
