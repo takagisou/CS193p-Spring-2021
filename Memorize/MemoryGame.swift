@@ -10,6 +10,9 @@ import SwiftUI
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
     
+    private var chosenIndexes: Set<Int> = []
+    private var points = 0
+    
     private(set) var cards: [Card]
     
     private var indexOfTheOneAndOnlyFaceUpCard: Int?
@@ -20,12 +23,24 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
               !cards[chosenIndex].isMatched else {
             return
         }
-        
+                
         if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
             
             if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                 cards[chosenIndex].isMatched = true
                 cards[potentialMatchIndex].isMatched = true
+                
+                // add points
+                points += 2
+                print("add 2 points, points: \(points)")
+            } else {
+                // mismatch
+                if chosenIndexes.contains(chosenIndex) {
+                    // penalty
+                    points -= 1
+                    print("penalty -1 point, points: \(points)")
+                }
+                
             }
             indexOfTheOneAndOnlyFaceUpCard = nil
         } else {
@@ -34,12 +49,17 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             }
             indexOfTheOneAndOnlyFaceUpCard = chosenIndex
         }
+        
         cards[chosenIndex].isFaceUp.toggle()
+        chosenIndexes.insert(chosenIndex)
+        print("add index: \(chosenIndex), current indexes: \(chosenIndexes)")
     }
     
     
     init(numberOfPairOfCards: Int, createCardContent: (Int) -> CardContent) {
+        chosenIndexes = []
         cards = []
+        points = 0
         // add numberOfPairCards x 2 cards to cards array
         (0..<numberOfPairOfCards).forEach { index in
             let content = createCardContent(index)
