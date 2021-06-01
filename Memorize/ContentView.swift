@@ -26,6 +26,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .foregroundColor(viewModel.color)
             .padding(.horizontal)
             Button(action: {
                 viewModel.newGame()
@@ -62,14 +63,14 @@ struct CardView: View {
         let shape = RoundedRectangle(cornerRadius: 20)
         ZStack {
             if card.isFaceUp {
+                shape.fill().foregroundColor(.white)
+                
                 // extra2.3
-                // fill gradient color if color exists
                 if let gradient = gradient {
-                    shape.fill(gradient).foregroundColor(.white)
+                    shape.strokeBorder(gradient, lineWidth: 3)
                 } else {
-                    shape.fill().foregroundColor(.white)
+                    shape.strokeBorder(lineWidth: 3)
                 }
-                shape.strokeBorder(lineWidth: 3)
                 Text(card.content).font(.largeTitle)
             } else if card.isMatched {
                 shape.opacity(0)
