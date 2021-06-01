@@ -6,8 +6,34 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct MemoryGame<CardContent> where CardContent: Equatable {
+    
+    enum Theme {
+        case vehicles
+        
+        var color: Color {
+            return .red
+        }
+        
+        var name: String {
+            return "Vehicles"
+        }
+        
+        var emojis: [String] {
+            return [
+                "🚲", "🚂", "🚁", "🚜", "🚕", "🏎",
+                "🚑", "🚓", "🚒", "✈️", "🚀", "⛵️",
+                "🛸", "🛶", "🚌", "🏍", "🛺", "🚠",
+                "🛵", "🚗", "🚚", "🚇", "🛻", "🚝",
+            ]
+        }
+        
+        var pairCount: Int {
+            return 4
+        }
+    }
     
     private(set) var cards: [Card]
     
