@@ -12,10 +12,21 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     private var chosenIndexes: Set<Int> = []
     private(set) var points = 0
-    
     private(set) var cards: [Card]
-    
     private var indexOfTheOneAndOnlyFaceUpCard: Int?
+    
+    // extra: 2.4
+    private var lastChosenDate: Date?
+    private var earnPoints: Int {
+        guard let date = lastChosenDate else {
+            return 2
+        }
+        let interval = Date().timeIntervalSince(date)
+        let points = max(Int(10 - interval), 2)
+        
+        print("interval: \(interval), earn points: \(points)")
+        return points
+    }
     
     mutating func choose(_ card: Card) {
         guard let chosenIndex = cards.firstIndex(where: { $0.id == card.id }),
@@ -31,8 +42,9 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
                 cards[potentialMatchIndex].isMatched = true
                 
                 // add points
-                points += 2
-                print("add 2 points, points: \(points)")
+                let addedPoints = earnPoints
+                points += addedPoints
+                print("add \(addedPoints) points, points: \(points)")
             } else {
                 // mismatch
                 if chosenIndexes.contains(chosenIndex) {
@@ -52,7 +64,11 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         
         cards[chosenIndex].isFaceUp.toggle()
         chosenIndexes.insert(chosenIndex)
-        print("add index: \(chosenIndex), current indexes: \(chosenIndexes)")
+        
+        // extra:2.4
+        let now = Date()
+        lastChosenDate = now
+        print("add index: \(chosenIndex), current indexes: \(chosenIndexes), lastChosenData: \(now)")
     }
     
     
@@ -66,7 +82,7 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
             cards.append(Card(content: content, id: index*2))
             cards.append(Card(content: content, id: index*2 + 1))
         }
-        cards.shuffle()
+//        cards.shuffle()
     }
     
     struct Card: Identifiable {
