@@ -15,7 +15,10 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
     
     private(set) var cards: [Card]
     
-    private var indexOfTheOneAndOnlyFaceUpCard: Int?
+    private var indexOfTheOneAndOnlyFaceUpCard: Int? {
+        get { cards.indices.filter { cards[$0].isFaceUp }.oneAndOnly }
+        set { cards.indices.forEach { cards[$0].isFaceUp = ($0 == newValue) } }
+    }
     
     mutating func choose(_ card: Card) {
         guard let chosenIndex = cards.firstIndex(where: { $0.id == card.id }),
@@ -23,34 +26,25 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
               !cards[chosenIndex].isMatched else {
             return
         }
-                
+        
         if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
             
             if cards[chosenIndex].content == cards[potentialMatchIndex].content {
                 cards[chosenIndex].isMatched = true
                 cards[potentialMatchIndex].isMatched = true
-                
                 // add points
                 points += 2
-                print("add 2 points, points: \(points)")
             } else {
                 // mismatch
                 if chosenIndexes.contains(chosenIndex) {
                     // penalty
                     points -= 1
-                    print("penalty -1 point, points: \(points)")
                 }
-                
             }
-            indexOfTheOneAndOnlyFaceUpCard = nil
+            cards[chosenIndex].isFaceUp = true
         } else {
-            for index in cards.indices {
-                cards[index].isFaceUp = false
-            }
             indexOfTheOneAndOnlyFaceUpCard = chosenIndex
         }
-        
-        cards[chosenIndex].isFaceUp.toggle()
         chosenIndexes.insert(chosenIndex)
         print("add index: \(chosenIndex), current indexes: \(chosenIndexes)")
     }
@@ -74,5 +68,15 @@ struct MemoryGame<CardContent> where CardContent: Equatable {
         var isMatched = false
         let content: CardContent
         let id: Int
+    }
+}
+
+extension Array {
+    var oneAndOnly: Element? {
+        if count == 1 {
+            return first
+        } else {
+            return nil
+        }
     }
 }
