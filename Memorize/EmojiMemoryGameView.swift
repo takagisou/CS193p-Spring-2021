@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by sana on 2021/05/28.
@@ -7,21 +7,21 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
     
-    @ObservedObject var viewModel: EmojiMemoryGame
+    @ObservedObject var game: EmojiMemoryGame
     
     var body: some View {
         VStack {
-            Text("\(viewModel.title)").font(.title)
-            Text("SCORE: \(viewModel.score)").font(.headline)
+            Text("\(game.title)").font(.title)
+            Text("SCORE: \(game.score)").font(.headline)
             ScrollView {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]){
-                    ForEach(viewModel.cards) { card in
-                        CardView(card: card)
+                    ForEach(game.cards) { card in
+                        CardView(card)
                             .aspectRatio(2/3, contentMode: .fit)
                             .onTapGesture {
-                                viewModel.choose(card)
+                                game.choose(card)
                             }
                     }
                 }
@@ -29,7 +29,7 @@ struct ContentView: View {
             .foregroundColor(.red)
             .padding(.horizontal)
             Button(action: {
-                viewModel.newGame()
+                game.newGame()
             }, label: {
                 Text("New Game").font(.title2)
             })
@@ -40,7 +40,11 @@ struct ContentView: View {
 
 struct CardView: View {
     
-    let card: MemoryGame<String>.Card
+    private let card: EmojiMemoryGame.Card
+    
+    init(_ card: EmojiMemoryGame.Card) {
+        self.card = card
+    }
     
     @State
     var isFaceUp = true
@@ -65,7 +69,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = EmojiMemoryGame()
         Group {
-            ContentView(viewModel: game)
+            EmojiMemoryGameView(game: game)
                 .preferredColorScheme(.dark)
         }
     }
