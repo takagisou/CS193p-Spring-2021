@@ -2,7 +2,7 @@ Assignment 1: Extra Credit
 
 [Code](https://github.com/takagisou/CS193p-Spring-2021/tree/extra/1)
 
-# Gif
+# Screenshot
 
 | Extra1.1 | Extra 1.2 |
 | --- | --- |
