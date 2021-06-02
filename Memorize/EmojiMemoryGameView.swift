@@ -13,14 +13,9 @@ struct EmojiMemoryGameView: View {
     
     var body: some View {
         AspectVGrid(items: game.cards,
-                    aspectRatio: 2/3,
-                    content: { card in
-                        CardView(card)
-                            .padding(4)
-                            .onTapGesture {
-                                game.choose(card)
-                            }
-                    })
+                    aspectRatio: 2/3) { card in
+                        cardView(for: card)
+                    }
             .foregroundColor(.red)
             .padding(.horizontal)
         //        VStack {
@@ -46,6 +41,19 @@ struct EmojiMemoryGameView: View {
         //            })
         //        }
         //    }
+    }
+    
+    @ViewBuilder
+    private func cardView(for card: EmojiMemoryGame.Card) -> some View {
+        if card.isMatched && !card.isFaceUp {
+            Rectangle().opacity(0)
+        } else {
+            CardView(card)
+                .padding(4)
+                .onTapGesture {
+                    game.choose(card)
+                }
+        }
     }
 }
 
