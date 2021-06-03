@@ -1,8 +1,8 @@
 //
 //  ContentView.swift
-//  Memorize
+//  Set
 //
-//  Created by sana on 2021/06/03.
+//  Created by sana on 2021/06/04.
 //
 
 import SwiftUI

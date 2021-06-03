@@ -1,14 +1,14 @@
 //
-//  MemorizeApp.swift
-//  Memorize
+//  SetApp.swift
+//  Set
 //
-//  Created by sana on 2021/06/03.
+//  Created by sana on 2021/06/04.
 //
 
 import SwiftUI
 
 @main
-struct MemorizeApp: App {
+struct SetApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

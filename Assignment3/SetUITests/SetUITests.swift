@@ -1,13 +1,13 @@
 //
-//  MemorizeUITests.swift
-//  MemorizeUITests
+//  SetUITests.swift
+//  SetUITests
 //
-//  Created by sana on 2021/06/03.
+//  Created by sana on 2021/06/04.
 //
 
 import XCTest
 
-class MemorizeUITests: XCTestCase {
+class SetUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
