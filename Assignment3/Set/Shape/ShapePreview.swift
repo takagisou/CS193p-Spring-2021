@@ -9,7 +9,15 @@ import SwiftUI
 
 struct ShapePreview: View {
     var body: some View {
-        Oval().stroke(lineWidth: 10)
+        VStack {
+            HStack {
+                Oval()
+                Oval()
+                Oval()
+                Oval()
+
+            }
+        }
     }
 }
 
@@ -52,13 +60,22 @@ struct Squiggle: Shape {
 
 struct Oval: Shape {
     func path(in rect: CGRect) -> Path {
-        let width =  rect.width //min(rect.width, rect.height)
-        let height = width / 2
+        let width: CGFloat
+        let height: CGFloat
+        
+        if rect.height * 2 < rect.width {
+            height = rect.height
+            width = height * 2
+        } else {
+            width = rect.width
+            height = width / 2
+        }
+
         let radius = height / 2
         let center = CGPoint(x: rect.midX, y: rect.midY)
         // top left
         let topLeft = CGPoint(
-            x:  center.x - width/2 + radius,
+            x: center.x - width/2 + radius,
             y: center.y - radius)
         let bottomLeft = CGPoint(
             x: topLeft.x,
@@ -82,7 +99,7 @@ struct Oval: Shape {
                  radius: radius,
                  startAngle: .radians(Double.pi / 2) - rotationAdjustment,
                  endAngle: .radians(Double.pi * 3/2) - rotationAdjustment,
-                 clockwise: true)    
+                 clockwise: true)
         p.addLine(to: bottomRight)
         p.addArc(center: centerRight,
                  radius: radius,
