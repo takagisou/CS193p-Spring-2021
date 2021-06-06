@@ -13,6 +13,10 @@
 		26FB5296266952CD005A7C60 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26FB5295266952CD005A7C60 /* Preview Assets.xcassets */; };
 		26FB52A1266952CD005A7C60 /* SetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB52A0266952CD005A7C60 /* SetTests.swift */; };
 		26FB52AC266952CD005A7C60 /* SetUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB52AB266952CD005A7C60 /* SetUITests.swift */; };
+		26FB52BC266C0B57005A7C60 /* AspectVGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB52BB266C0B57005A7C60 /* AspectVGrid.swift */; };
+		26FB52BF266C188F005A7C60 /* SetViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB52BE266C188F005A7C60 /* SetViewModel.swift */; };
+		26FB52C1266C1965005A7C60 /* SetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB52C0266C1965005A7C60 /* SetCard.swift */; };
+		26FB52C4266C1C0F005A7C60 /* ShapePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FB52C3266C1C0F005A7C60 /* ShapePreview.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +49,10 @@
 		26FB52A7266952CD005A7C60 /* SetUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SetUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		26FB52AB266952CD005A7C60 /* SetUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetUITests.swift; sourceTree = "<group>"; };
 		26FB52AD266952CD005A7C60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		26FB52BB266C0B57005A7C60 /* AspectVGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AspectVGrid.swift; sourceTree = "<group>"; };
+		26FB52BE266C188F005A7C60 /* SetViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetViewModel.swift; sourceTree = "<group>"; };
+		26FB52C0266C1965005A7C60 /* SetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCard.swift; sourceTree = "<group>"; };
+		26FB52C3266C1C0F005A7C60 /* ShapePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapePreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,7 +104,11 @@
 			isa = PBXGroup;
 			children = (
 				26FB528E266952CC005A7C60 /* SetApp.swift */,
+				26FB52C2266C1BD4005A7C60 /* Shape */,
+				26FB52BB266C0B57005A7C60 /* AspectVGrid.swift */,
+				26FB52C0266C1965005A7C60 /* SetCard.swift */,
 				26FB5290266952CC005A7C60 /* ContentView.swift */,
+				26FB52BE266C188F005A7C60 /* SetViewModel.swift */,
 				26FB5292266952CD005A7C60 /* Assets.xcassets */,
 				26FB5297266952CD005A7C60 /* Info.plist */,
 				26FB5294266952CD005A7C60 /* Preview Content */,
@@ -128,6 +140,14 @@
 				26FB52AD266952CD005A7C60 /* Info.plist */,
 			);
 			path = SetUITests;
+			sourceTree = "<group>";
+		};
+		26FB52C2266C1BD4005A7C60 /* Shape */ = {
+			isa = PBXGroup;
+			children = (
+				26FB52C3266C1C0F005A7C60 /* ShapePreview.swift */,
+			);
+			path = Shape;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -259,8 +279,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26FB52C4266C1C0F005A7C60 /* ShapePreview.swift in Sources */,
+				26FB52C1266C1965005A7C60 /* SetCard.swift in Sources */,
 				26FB5291266952CC005A7C60 /* ContentView.swift in Sources */,
+				26FB52BF266C188F005A7C60 /* SetViewModel.swift in Sources */,
 				26FB528F266952CC005A7C60 /* SetApp.swift in Sources */,
+				26FB52BC266C0B57005A7C60 /* AspectVGrid.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
