@@ -9,7 +9,12 @@ import SwiftUI
 
 struct ShapePreview: View {
     var body: some View {
-        Squiggle()
+        VStack {
+            Squiggle().stroke(lineWidth: 30)
+            Squiggle().stroke(lineWidth: 30)
+            Squiggle().stroke(lineWidth: 30)
+
+        }
     }
 }
 
@@ -101,9 +106,9 @@ struct Oval: Shape {
 
 struct Squiggle: Shape {
     func path(in rect: CGRect) -> Path {
-
         let width: CGFloat
         let height: CGFloat
+        
         if rect.height * 2 < rect.width {
             height = rect.height
             width = height * 2
@@ -115,22 +120,24 @@ struct Squiggle: Shape {
         var p = Path()
         
         let point1: CGPoint = .init(
-            x: rect.midX/3,
-            y: rect.minY)
+            x: rect.midX - width/2,
+            y: rect.midY)
         
         let point2: CGPoint = .init(
-            x: point1.x,
-            y: rect.maxY)
+            x: point1.x + width,
+            y: point1.y)
         
-        let adjustment: Angle = .radians(Double.pi)
+        let control1: CGPoint = .init(
+            x: rect.midX,
+            y: rect.midY - height/2)
+        let control2: CGPoint = .init(
+            x: rect.midX,
+            y: rect.midY + height/2)
         
         p.move(to: point1)
-        p.addArc(center: .init(x: point1.x, y: rect.midY),
-                 radius: point1.x,
-                 startAngle: .radians(Double.pi) + adjustment,
-                 endAngle: .radians(Double.pi * 3/2) + adjustment,
-                 clockwise: true)
-
+        p.addCurve(to: point2,
+                   control1: control1,
+                   control2: control2)
         
         
         return p
