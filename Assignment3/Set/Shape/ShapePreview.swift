@@ -9,15 +9,7 @@ import SwiftUI
 
 struct ShapePreview: View {
     var body: some View {
-        VStack {
-            HStack {
-                Oval()
-                Oval()
-                Oval()
-                Oval()
-
-            }
-        }
+        Squiggle()
     }
 }
 
@@ -49,12 +41,6 @@ struct Diamond: Shape {
         p.addLine(to: right)
         p.addLine(to: top)
         return p.stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round)).path(in: rect)
-    }
-}
-
-struct Squiggle: Shape {
-    func path(in rect: CGRect) -> Path {
-        return Path()
     }
 }
 
@@ -107,6 +93,45 @@ struct Oval: Shape {
                  endAngle: .radians(Double.pi / 2) - rotationAdjustment,
                  clockwise: true)
         p.addLine(to: topLeft)
+        
+        return p
+    }
+}
+
+
+struct Squiggle: Shape {
+    func path(in rect: CGRect) -> Path {
+
+        let width: CGFloat
+        let height: CGFloat
+        if rect.height * 2 < rect.width {
+            height = rect.height
+            width = height * 2
+        } else {
+            width = rect.width
+            height = width / 2
+        }
+        
+        var p = Path()
+        
+        let point1: CGPoint = .init(
+            x: rect.midX/3,
+            y: rect.minY)
+        
+        let point2: CGPoint = .init(
+            x: point1.x,
+            y: rect.maxY)
+        
+        let adjustment: Angle = .radians(Double.pi)
+        
+        p.move(to: point1)
+        p.addArc(center: .init(x: point1.x, y: rect.midY),
+                 radius: point1.x,
+                 startAngle: .radians(Double.pi) + adjustment,
+                 endAngle: .radians(Double.pi * 3/2) + adjustment,
+                 clockwise: true)
+
+        
         
         return p
     }
