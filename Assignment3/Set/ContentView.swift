@@ -9,24 +9,84 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("text")
+        let card = SetCard.random
+        CardView(card)
     }
 }
 
 
 struct CardView: View {
     
+    private let card: SetCard
+    
+    init(_ card: SetCard) {
+        self.card = card
+    }
+    
     var body: some View {
-        GeometryReader { geometry in
-            let shape = RoundedRectangle(cornerRadius: Const.cornerRadius)
-            
+        VStack {
+            ForEach((0..<card.number.rawValue)) { num in
+                UICardShape(card)
+            }
         }
+        .padding()
     }
     
     private enum Const {
         static let cornerRadius: CGFloat = 20
         static let lineWidth: CGFloat = 3
         static let fontScale: CGFloat = 0.7
+    }
+}
+
+struct UICardShape: View {
+    var card: SetCard
+    
+    init(_ card: SetCard) {
+        self.card = card
+    }
+    
+    var body: some View {
+        Group {
+            switch card.shape {
+            case .diamond:
+                Diamond()
+                    .stroke(card.uiColor, lineWidth: 3.0)
+                    .background(Diamond().foregroundColor(card.uiColor).opacity(card.uiOpacity))
+            case .oval:
+                Oval()
+                    .stroke(card.uiColor, lineWidth: 3.0)
+                    .background(Oval().foregroundColor(card.uiColor).opacity(card.uiOpacity))
+            case .squiggle:
+                Squiggle()
+                    .stroke(card.uiColor, lineWidth: 3.0)
+                    .background(Squiggle().foregroundColor(card.uiColor).opacity(card.uiOpacity))
+            }
+        }
+    }
+}
+
+extension SetCard {
+    var uiColor: Color {
+        switch self.color {
+        case .green:
+            return .green
+        case .purple:
+            return .purple
+        case .red:
+            return .red
+        }
+    }
+    
+    var uiOpacity: Double {
+        switch  self.shade {
+        case .open:
+            return 1
+        case .solid:
+            return 0
+        case .striped:
+            return 0.3
+        }
     }
 }
 
