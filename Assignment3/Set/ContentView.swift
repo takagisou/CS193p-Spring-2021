@@ -55,8 +55,6 @@ struct UICardShape: View {
             switch card.shape {
             case .diamond:
                 Diamond()
-//                    .fill()
-//                    .foregroundColor(card.uiColor).opacity(card.uiOpacity)
                     .stroke(card.uiColor, lineWidth: 1.0)
                     .overlay(
                         Diamond()
