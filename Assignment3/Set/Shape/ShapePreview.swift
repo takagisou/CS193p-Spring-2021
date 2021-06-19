@@ -11,8 +11,8 @@ struct ShapePreview: View {
     var body: some View {
         VStack {
             Squiggle().stroke(lineWidth: 3)
-            Squiggle().stroke(lineWidth: 3)
-            Squiggle().stroke(lineWidth: 3)
+            Diamond().stroke(lineWidth: 3)
+            Oval().stroke(lineWidth: 3)
 
         }
     }
@@ -45,7 +45,8 @@ struct Diamond: Shape {
         p.addLine(to: bottom)
         p.addLine(to: right)
         p.addLine(to: top)
-        return p.stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round)).path(in: rect)
+        return p
+//        return p.stroke(style: StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round)).path(in: rect)
     }
 }
 

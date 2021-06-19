@@ -9,8 +9,12 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        let card = SetCard.random
-        CardView(card)
+        let cards = SetCard.all.shuffled()
+        let items = (0..<12).map { index in cards[index] }
+        AspectVGrid(items: items,
+                    aspectRatio: 2/3) { card in
+            CardView(card)
+        }
     }
 }
 
@@ -51,16 +55,30 @@ struct UICardShape: View {
             switch card.shape {
             case .diamond:
                 Diamond()
-                    .stroke(card.uiColor, lineWidth: 3.0)
-                    .background(Diamond().foregroundColor(card.uiColor).opacity(card.uiOpacity))
+//                    .fill()
+//                    .foregroundColor(card.uiColor).opacity(card.uiOpacity)
+                    .stroke(card.uiColor, lineWidth: 1.0)
+                    .overlay(
+                        Diamond()
+                            .fill(card.uiColor)
+                            .opacity(card.uiOpacity)
+                    )
             case .oval:
                 Oval()
-                    .stroke(card.uiColor, lineWidth: 3.0)
-                    .background(Oval().foregroundColor(card.uiColor).opacity(card.uiOpacity))
+                    .stroke(card.uiColor, lineWidth: 1.0)
+                    .overlay(
+                        Oval()
+                            .fill(card.uiColor)
+                            .opacity(card.uiOpacity)
+                    )
             case .squiggle:
                 Squiggle()
-                    .stroke(card.uiColor, lineWidth: 3.0)
-                    .background(Squiggle().foregroundColor(card.uiColor).opacity(card.uiOpacity))
+                    .stroke(card.uiColor, lineWidth: 1.0)
+                    .overlay(
+                        Squiggle()
+                            .fill(card.uiColor)
+                            .opacity(card.uiOpacity)
+                    )
             }
         }
     }

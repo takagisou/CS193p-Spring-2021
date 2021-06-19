@@ -39,6 +39,20 @@ struct SetCard: Identifiable {
 }
 
 extension SetCard {
+    static var all: [SetCard] {
+        var cards: [SetCard] = []
+        SetCardNumber.allCases.forEach { number in
+            SetCardColor.allCases.forEach { color in
+                SetCardShape.allCases.forEach { shape in
+                    SetCardShade.allCases.forEach { shade in
+                        cards.append(SetCard(number: number, color: color, shape: shape, shade: shade))
+                    }
+                }
+            }
+        }
+        return cards
+    }
+    
     static var random: SetCard {
         let number = SetCardNumber.allCases.randomElement()!
         let color = SetCardColor.allCases.randomElement()!
