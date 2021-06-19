@@ -10,9 +10,9 @@ import SwiftUI
 struct ShapePreview: View {
     var body: some View {
         VStack {
-            Squiggle().stroke(lineWidth: 30)
-            Squiggle().stroke(lineWidth: 30)
-            Squiggle().stroke(lineWidth: 30)
+            Squiggle().stroke(lineWidth: 3)
+            Squiggle().stroke(lineWidth: 3)
+            Squiggle().stroke(lineWidth: 3)
 
         }
     }
@@ -120,7 +120,7 @@ struct Squiggle: Shape {
         
         let r: CGRect = .init(
             x: rect.minX,
-            y: rect.minY,
+            y: rect.midY - height/2,
             width: width,
             height: height)
         
