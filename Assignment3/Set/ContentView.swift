@@ -15,6 +15,7 @@ struct ContentView: View {
                     aspectRatio: 2/3) { card in
             CardView(card)
         }
+        .padding(.horizontal)
     }
 }
 
@@ -28,10 +29,15 @@ struct CardView: View {
     }
     
     var body: some View {
-        VStack {
-            ForEach((0..<card.number.rawValue)) { num in
-                UICardShape(card)
-            }
+        ZStack{
+            let shape = RoundedRectangle(cornerRadius: 10)
+            let opacity = card.isSelected ? 1.0 : 0.2
+            VStack {
+                ForEach((0..<card.number.rawValue)) { num in
+                    UICardShape(card)
+                }
+            }.padding()
+            shape.strokeBorder(Color.black.opacity(opacity), lineWidth: 2.0)
         }
         .padding()
     }

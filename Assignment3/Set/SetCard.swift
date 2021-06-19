@@ -31,7 +31,7 @@ struct SetCard: Identifiable {
     var color: SetCardColor
     var shape: SetCardShape
     var shade: SetCardShade
-    private var isSelected = false
+    var isSelected = false
     
     var id: String {
         return "\(self.number.rawValue)\(self.color.rawValue)\(self.shape.rawValue)\(self.shade.rawValue)"
