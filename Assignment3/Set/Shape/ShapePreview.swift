@@ -13,7 +13,7 @@ struct ShapePreview: View {
             Squiggle().stroke(lineWidth: 3)
             Diamond().stroke(lineWidth: 3)
             Oval().stroke(lineWidth: 3)
-        }.padding()
+        }
     }
 }
 

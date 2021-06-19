@@ -14,14 +14,16 @@ struct ContentView: View {
     var body: some View {
         let cards = viewModel.cards
         let items = (0..<12).map { index in cards[index] }
-        AspectVGrid(items: items,
-                    aspectRatio: 2/3) { card in
-            CardView(card).onTapGesture {
-                print("tap: \(card.id)")
-                viewModel.select(card)
+        VStack{
+            AspectVGrid(items: items,
+                        aspectRatio: 2/3) { card in
+                CardView(card).onTapGesture {
+                    print("tap: \(card.id)")
+                    viewModel.select(card)
+                }
             }
+            .padding(.horizontal)
         }
-        .padding(.horizontal)
     }
 }
 
@@ -36,16 +38,14 @@ struct CardView: View {
     
     var body: some View {
         ZStack{
-            let shape = RoundedRectangle(cornerRadius: 10)
             let opacity = card.isSelected ? 1.0 : 0.2
             VStack {
                 ForEach((0..<card.number.rawValue)) { num in
                     UICardShape(card)
                 }
             }.padding()
-            shape.strokeBorder(Color.black.opacity(opacity), lineWidth: 2.0)
-        }
-        .padding()
+            RoundedRectangle(cornerRadius: 10) .strokeBorder(Color.black.opacity(opacity), lineWidth: 2.0)
+        }.padding(5)
     }
     
     private enum Const {
