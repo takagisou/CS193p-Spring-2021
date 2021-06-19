@@ -8,12 +8,18 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @ObservedObject var viewModel: SetViewModel
+    
     var body: some View {
-        let cards = SetCard.all.shuffled()
+        let cards = viewModel.cards
         let items = (0..<12).map { index in cards[index] }
         AspectVGrid(items: items,
                     aspectRatio: 2/3) { card in
-            CardView(card)
+            CardView(card).onTapGesture {
+                print("tap: \(card.id)")
+                viewModel.select(card)
+            }
         }
         .padding(.horizontal)
     }
@@ -114,6 +120,7 @@ extension SetCard {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        let viewModel = SetViewModel()
+        ContentView(viewModel: viewModel)
     }
 }

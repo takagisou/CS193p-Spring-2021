@@ -38,6 +38,13 @@ struct SetCard: Identifiable {
     }
 }
 
+extension SetCard: Equatable {
+    // 自身と同じ型を2つ受け取る静的メソッド
+    static func == (lhs: SetCard, rhs: SetCard) -> Bool{
+        return lhs.id == rhs.id
+    }
+}
+
 extension SetCard {
     static var all: [SetCard] {
         var cards: [SetCard] = []
