@@ -116,31 +116,15 @@ struct Squiggle: Shape {
             width = rect.width
             height = width / 2
         }
+
         
-        var p = Path()
+        let r: CGRect = .init(
+            x: rect.minX,
+            y: rect.minY,
+            width: width,
+            height: height)
         
-        let point1: CGPoint = .init(
-            x: rect.midX - width/2,
-            y: rect.midY)
-        
-        let point2: CGPoint = .init(
-            x: point1.x + width,
-            y: point1.y)
-        
-        let control1: CGPoint = .init(
-            x: rect.midX,
-            y: rect.midY - height/2)
-        let control2: CGPoint = .init(
-            x: rect.midX,
-            y: rect.midY + height/2)
-        
-        p.move(to: point1)
-        p.addCurve(to: point2,
-                   control1: control1,
-                   control2: control2)
-        
-        
-        return p
+        return Rectangle().path(in: r)
     }
 }
 
