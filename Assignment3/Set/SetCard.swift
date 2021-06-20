@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 enum SetCardNumber: Int, CaseIterable {
     case one = 1
     case two = 2
@@ -26,12 +25,17 @@ enum SetCardShade: String, CaseIterable {
     case solid, striped, open
 }
 
+enum SetCardSetState {
+    case normal, unset, set
+}
+
 struct SetCard: Identifiable {
     var number: SetCardNumber
     var color: SetCardColor
     var shape: SetCardShape
     var shade: SetCardShade
     var isSelected = false
+    var setState: SetCardSetState = .normal
     
     var id: String {
         return "\(self.number.rawValue)\(self.color.rawValue)\(self.shape.rawValue)\(self.shade.rawValue)"

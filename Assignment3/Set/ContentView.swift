@@ -12,9 +12,14 @@ struct ContentView: View {
     @ObservedObject var viewModel: SetViewModel
     
     var body: some View {
-        let cards = viewModel.cards
-        let items = (0..<12).map { index in cards[index] }
         VStack{
+            HStack {
+                Button("New Game") {
+                    viewModel.newGame()
+                }
+            }
+            let cards = viewModel.cards
+            let items = (0..<12).map { index in cards[index] }
             AspectVGrid(items: items,
                         aspectRatio: 2/3) { card in
                 CardView(card).onTapGesture {
@@ -38,13 +43,12 @@ struct CardView: View {
     
     var body: some View {
         ZStack{
-            let opacity = card.isSelected ? 1.0 : 0.2
             VStack {
                 ForEach((0..<card.number.rawValue)) { num in
                     UICardShape(card)
                 }
             }.padding()
-            RoundedRectangle(cornerRadius: 10) .strokeBorder(Color.black.opacity(opacity), lineWidth: 2.0)
+            RoundedRectangle(cornerRadius: 10) .strokeBorder(card.uiBorderColor, lineWidth: 2.0)
         }.padding(5)
     }
     
@@ -114,6 +118,17 @@ extension SetCard {
             return 0
         case .striped:
             return 0.3
+        }
+    }
+    
+    var uiBorderColor: Color {
+        switch self.setState {
+        case .normal:
+            return self.isSelected ? .black : .gray.opacity(0.3)
+        case .unset:
+            return .red
+        case .set:
+            return .green
         }
     }
 }
