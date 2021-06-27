@@ -75,18 +75,25 @@ struct CardView: View {
                 Pie(startAngle: Angle(degrees: 0 - 90), endAngle: Angle(degrees: 300 - 90))
                     .padding(5)
                     .opacity(0.5)
-                Text(card.content).font(font(in: geometry.size))
+                Text(card.content)
+                    .rotationEffect(.degrees(card.isMatched ? 360 : 0))
+                    .animation(.linear(duration: 1).repeatForever(autoreverses: false))
+                    .font(.system(size: DrawingConstantns.fontSize))
+//                    .font(font(in: geometry.size))
+                    .scaleEffect(scale(thatFits: geometry.size))
             }
             .cardify(isFaceUp: card.isFaceUp)
         }
     }
     
-    private func font(in size: CGSize) -> Font {
-            .system(size: min(size.width, size.height) * DrawingConstantns.fontScale)
+    private func scale(thatFits size: CGSize) -> CGFloat {
+        min(size.width, size.height) / (DrawingConstantns.fontSize / DrawingConstantns.fontScale)
     }
     
+
     private struct DrawingConstantns {
         static let fontScale: CGFloat = 0.7
+        static let fontSize: CGFloat = 32
     }
 }
 
