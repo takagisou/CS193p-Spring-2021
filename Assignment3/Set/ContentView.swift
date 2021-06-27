@@ -14,11 +14,12 @@ struct ContentView: View {
     var body: some View {
         VStack{
             HStack {
+                Spacer()
                 Button("New Game") {
                     viewModel.newGame()
                 }
-            }
-            let cards = viewModel.cards
+            }.padding(.horizontal)
+            let cards = viewModel.deck
             let items = (0..<12).map { index in cards[index] }
             AspectVGrid(items: items,
                         aspectRatio: 2/3) { card in
@@ -28,6 +29,14 @@ struct ContentView: View {
                 }
             }
             .padding(.horizontal)
+            HStack {
+                Button("Change Card") {
+                    //
+                }.disabled(viewModel.hasSet)
+                Button("Draw Extra") {
+                    viewModel.newGame()
+                }.disabled(!viewModel.canSet)
+            }
         }
     }
 }

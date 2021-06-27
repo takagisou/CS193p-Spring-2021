@@ -29,14 +29,16 @@ enum SetCardSetState {
     case normal, unset, set
 }
 
-struct SetCard: Identifiable {
+struct SetCard {
     var number: SetCardNumber
     var color: SetCardColor
     var shape: SetCardShape
     var shade: SetCardShade
     var isSelected = false
     var setState: SetCardSetState = .normal
-    
+}
+
+extension SetCard: Identifiable {
     var id: String {
         return "\(self.number.rawValue)\(self.color.rawValue)\(self.shape.rawValue)\(self.shade.rawValue)"
     }

@@ -9,19 +9,76 @@ import SwiftUI
 
 class SetViewModel: ObservableObject {
     
-    @Published var cards = SetCard.all.shuffled()
+    @Published var deck = SetCard.all.shuffled()
+    @Published var cards: [SetCard] = []
+    @Published var trash: [SetCard] = []
+    
+    var canChange: Bool {
+        return deck.filter { $0.setState == .set }.count != 0
+    }
+    
+    var canSet: Bool {
+        let maxIndex = deck.count - 2
+        for (index1, card1) in deck[0..<maxIndex].enumerated() {
+            for (index2, card2) in deck[index1+1..<maxIndex+1].enumerated() {
+                for card3 in deck[index2+1..<maxIndex+2] {
+                    if isSet(card1: card1, card2: card2, card3: card3) {
+                        return true
+                    }
+                }
+            }
+        }
+        
+        return false
+    }
+    
+    var remain: Int {
+        return deck.count
+    }
+    
+    
+    init() {
+        newGame()
+    }
     
     func newGame() {
-        cards = SetCard.all.shuffled()
-        print("cards count: \(cards.count)")
+        deck = SetCard.all.shuffled()
+        cards = []
+        trash = []
+        
+        cards = deck[0..<12].map { $0 }
+        deck = deck[12..<deck.count].map { $0 }
+    }
+    
+    func removeSet() {
+        
+    }
+    
+    func drawCards() {
+        
+    }
+    
+    func drawExtraCards() {
+        
+    }
+    
+    func changeCards() {
+        guard let cards = deck.filter({ $0.setState == .set }),
+              cards.count == 3 else {
+            return
+        }
+        
         
     }
     
     func select(_ card: SetCard) {
         
-        // update select state
+        if deck.filter({ $0.isSelected }).count == 3 {
+            return
+        }
         
-        let newCards = cards.map { current -> SetCard in
+        // update select state
+        let newCards = deck.map { current -> SetCard in
             var c = current
             c.setState = .normal
             if current == card {
@@ -32,11 +89,11 @@ class SetViewModel: ObservableObject {
 
         let selectedCards = newCards.filter { $0.isSelected }
         if selectedCards.count != 3 {
-            cards = newCards
+            deck = newCards
             return
         }
         
-        // check match
+        // check set
         let isSet = isSet(card1: selectedCards[0], card2: selectedCards[1], card3: selectedCards[2])
         
         let result = newCards.map { card -> SetCard in
@@ -48,17 +105,17 @@ class SetViewModel: ObservableObject {
             return setCard
         }
         
-        cards = result
+        deck = result
     }
     
-    func isSet(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
+    private func isSet(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
         return colorOk(card1: card1, card2: card2, card3: card3)
             && numberOk(card1: card1, card2: card2, card3: card3)
             && shapeOk(card1: card1, card2: card2, card3: card3)
             && shadeOk(card1: card1, card2: card2, card3: card3)
     }
     
-    func colorOk(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
+    private func colorOk(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
         
         if card1.color == card2.color && card2.color == card3.color {
             return true
@@ -71,7 +128,7 @@ class SetViewModel: ObservableObject {
         return !dict.values.contains(false)
     }
     
-    func numberOk(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
+    private func numberOk(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
         if card1.number == card2.number && card2.number == card3.number {
             return true
         }
@@ -83,7 +140,7 @@ class SetViewModel: ObservableObject {
         return !dict.values.contains(false)
     }
     
-    func shapeOk(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
+    private func shapeOk(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
         if card1.shape == card2.shape && card2.shape == card3.shape {
             return true
         }
@@ -95,7 +152,7 @@ class SetViewModel: ObservableObject {
         return !dict.values.contains(false)
     }
     
-    func shadeOk(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
+    private func shadeOk(card1: SetCard, card2: SetCard, card3: SetCard) -> Bool {
     
         if card1.shade == card2.shade && card2.shade == card3.shade {
             return true
