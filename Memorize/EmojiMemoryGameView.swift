@@ -49,6 +49,10 @@ struct EmojiMemoryGameView: View {
             cardView(for: card)
         }
                     .foregroundColor(.red)
+                    .onAppear {
+                        // "deal" cards
+                    }
+        
     }
     
     var shuffle: some View {
@@ -64,6 +68,7 @@ struct EmojiMemoryGameView: View {
         } else {
             CardView(card)
                 .padding(4)
+                .transition(.asymmetric(insertion: .scale, removal: .opacity))
                 .onTapGesture {
                     withAnimation {
                         game.choose(card)
