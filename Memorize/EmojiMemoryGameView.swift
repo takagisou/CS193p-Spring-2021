@@ -12,12 +12,12 @@ struct EmojiMemoryGameView: View {
     @ObservedObject var game: EmojiMemoryGame
     
     var body: some View {
-        AspectVGrid(items: game.cards,
-                    aspectRatio: 2/3) { card in
-            cardView(for: card)
+        VStack{
+            gameBody
+            shuffle
         }
-                    .foregroundColor(.red)
-                    .padding(.horizontal)
+        .padding()
+        
         //        VStack {
         //            Text("\(game.title)").font(.title)
         //            Text("SCORE: \(game.score)").font(.headline)
@@ -43,10 +43,26 @@ struct EmojiMemoryGameView: View {
         //    }
     }
     
+    var gameBody: some View {
+        AspectVGrid(items: game.cards,
+                    aspectRatio: 2/3) { card in
+            cardView(for: card)
+        }
+                    .foregroundColor(.red)
+    }
+    
+    var shuffle: some View {
+        Button("Shuffle") {
+            withAnimation {
+                game.shuffle()
+            }
+        }
+    }
+    
     @ViewBuilder
     private func cardView(for card: EmojiMemoryGame.Card) -> some View {
         if card.isMatched && !card.isFaceUp {
-            Rectangle().opacity(0)
+            Color.clear
         } else {
             CardView(card)
                 .padding(4)
@@ -79,7 +95,7 @@ struct CardView: View {
                     .rotationEffect(.degrees(card.isMatched ? 360 : 0))
                     .animation(.linear(duration: 1).repeatForever(autoreverses: false))
                     .font(.system(size: DrawingConstantns.fontSize))
-//                    .font(font(in: geometry.size))
+                //                    .font(font(in: geometry.size))
                     .scaleEffect(scale(thatFits: geometry.size))
             }
             .cardify(isFaceUp: card.isFaceUp)
@@ -90,7 +106,7 @@ struct CardView: View {
         min(size.width, size.height) / (DrawingConstantns.fontSize / DrawingConstantns.fontScale)
     }
     
-
+    
     private struct DrawingConstantns {
         static let fontScale: CGFloat = 0.7
         static let fontSize: CGFloat = 32

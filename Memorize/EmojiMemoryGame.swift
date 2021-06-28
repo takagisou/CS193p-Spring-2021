@@ -119,4 +119,10 @@ class EmojiMemoryGame: ObservableObject {
         title = theme.title
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
     }
+    
+ 
+    func shuffle() {
+        model.shuffle()
+    }
+    
 }
