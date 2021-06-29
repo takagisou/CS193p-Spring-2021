@@ -9,9 +9,18 @@ import SwiftUI
 
 struct EmojiMemoryGameView: View {
     
-    @ObservedObject var game: EmojiMemoryGame
+    private struct CardConstants {
+        static let color: Color = .red
+        static let aspectRatio: CGFloat = 2/3
+        static let dealDuration: Double = 0.5
+        static let totalDealDuration: Double = 2
+        static let undealtHeight: CGFloat = 90
+        static let undealtWidth: CGFloat = undealtHeight * aspectRatio
+    }
     
+    @ObservedObject var game: EmojiMemoryGame
     @State private var dealt = Set<Int>()
+    @Namespace private var dealingNamespace
     
     var body: some View {
         VStack{
@@ -59,15 +68,17 @@ struct EmojiMemoryGameView: View {
         ZStack {
             ForEach(game.cards.filter(isUndealt)) { card in
                 CardView(card)
-                    .transition(.asymmetric(insertion: .opacity, removal: .scale))
+                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                    .transition(.asymmetric(insertion: .opacity, removal: .identity))
+                
             }
         }
         .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
         .foregroundColor(CardConstants.color)
-        .onTapGesture {            
-            withAnimation(.easeInOut(duration: 5)) {
-                // "deal" cards
-                for card in game.cards {
+        .onTapGesture {
+            // "deal" cards
+            for card in game.cards {
+                withAnimation(dealAnimation(for: card)) {
                     deal(card)
                 }
             }
@@ -76,7 +87,9 @@ struct EmojiMemoryGameView: View {
     
     var shuffle: some View {
         Button("Shuffle") {
-            game.shuffle()
+            withAnimation {
+                game.shuffle()
+            }
         }
     }
     
@@ -86,8 +99,10 @@ struct EmojiMemoryGameView: View {
             Color.clear
         } else {
             CardView(card)
+                .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                 .padding(4)
-                .transition(.asymmetric(insertion: .scale, removal: .opacity))
+                .transition(.asymmetric(insertion: .identity, removal: .opacity))
+                .zIndex(zIndex(of: card))
                 .onTapGesture {
                     withAnimation {
                         game.choose(card)
@@ -104,14 +119,18 @@ struct EmojiMemoryGameView: View {
         !dealt.contains(card.id)
     }
     
-    private struct CardConstants {
-        static let color: Color = .red
-        static let aspectRatio: CGFloat = 2/3
-        static let dealDuration: Double = 0.5
-        static let totalDealDuration: Double = 2
-        static let undealtHeight: CGFloat = 90
-        static let undealtWidth: CGFloat = undealtHeight * aspectRatio
+    private func dealAnimation(for card: EmojiMemoryGame.Card) -> Animation {
+        var delay = 0.0
+        if let index = game.cards.firstIndex(where: { $0.id == card.id }) {
+            delay = Double(index) * (CardConstants.totalDealDuration / Double(game.cards.count))
+        }
+        return .easeInOut(duration: CardConstants.dealDuration).delay(delay)
     }
+    
+    private func zIndex(of card: EmojiMemoryGame.Card) -> Double {
+        -Double(game.cards.firstIndex(where: { $0.id == card.id }) ?? 0)
+    }
+    
 }
 
 

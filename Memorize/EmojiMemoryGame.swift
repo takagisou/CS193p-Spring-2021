@@ -80,8 +80,9 @@ class EmojiMemoryGame: ObservableObject {
         }
         
         var pairCount: Int {
-            let max = 10 < emojis.count ? 10 : emojis.count
-            return Int.random(in: 4..<max)
+//            let max = 10 < emojis.count ? 10 : emojis.count
+//            return Int.random(in: 4..<max)
+            return 8
         }
         
         var title: String {
