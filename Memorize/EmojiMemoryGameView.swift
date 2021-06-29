@@ -63,12 +63,9 @@ struct EmojiMemoryGameView: View {
     }
     
     var gameBody: some View {
-        AspectVGrid(items: game.cards,
-                    aspectRatio: 2/3) { card in
+        AspectVGrid(items: game.cards, aspectRatio: 2/3) { card in
             cardView(for: card)
-        }
-                    .foregroundColor(CardConstants.color)
-        
+        }.foregroundColor(CardConstants.color)
     }
     
     var deckBody: some View {
@@ -77,7 +74,7 @@ struct EmojiMemoryGameView: View {
                 CardView(card)
                     .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                     .transition(.asymmetric(insertion: .opacity, removal: .identity))
-                
+                    .zIndex(zIndex(of: card))
             }
         }
         .frame(width: CardConstants.undealtWidth, height: CardConstants.undealtHeight)
@@ -117,7 +114,7 @@ struct EmojiMemoryGameView: View {
             CardView(card)
                 .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                 .padding(4)
-                .transition(.asymmetric(insertion: .identity, removal: .opacity))
+                .transition(.asymmetric(insertion: .identity, removal: .scale))
                 .zIndex(zIndex(of: card))
                 .onTapGesture {
                     withAnimation {
@@ -152,7 +149,6 @@ struct EmojiMemoryGameView: View {
 
 struct CardView: View {
     
-    @State var isFaceUp = true
     @State private var animatedBonusRemaining: Double = 0
     
     private let card: EmojiMemoryGame.Card
@@ -184,8 +180,8 @@ struct CardView: View {
                 Text(card.content)
                     .rotationEffect(.degrees(card.isMatched ? 360 : 0))
                     .animation(.linear(duration: 1).repeatForever(autoreverses: false))
+                    .padding(5) // twitched without padding
                     .font(.system(size: DrawingConstantns.fontSize))
-                //                    .font(font(in: geometry.size))
                     .scaleEffect(scale(thatFits: geometry.size))
             }
             .cardify(isFaceUp: card.isFaceUp)
