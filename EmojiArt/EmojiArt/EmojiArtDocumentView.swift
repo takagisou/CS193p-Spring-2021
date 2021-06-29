@@ -31,7 +31,7 @@ struct EmojiArtDocumentView: View {
                 }
             }
             .onDrop(of: [.plainText], isTargeted: nil) { providers, location in
-                return drop(providers: providers, at: location, in: geometry)
+                drop(providers: providers, at: location, in: geometry)
             }
         }
     }
