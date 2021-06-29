@@ -152,21 +152,35 @@ struct EmojiMemoryGameView: View {
 
 struct CardView: View {
     
+    @State var isFaceUp = true
+    @State private var animatedBonusRemaining: Double = 0
+    
     private let card: EmojiMemoryGame.Card
+    
+    
     
     init(_ card: EmojiMemoryGame.Card) {
         self.card = card
     }
     
-    @State
-    var isFaceUp = true
-    
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Pie(startAngle: Angle(degrees: 0 - 90), endAngle: Angle(degrees: 300 - 90))
-                    .padding(5)
-                    .opacity(0.5)
+                Group {
+                    if card.isConsumingBonusTime {
+                        Pie(startAngle: .degrees(0 - 90), endAngle: .degrees((1-animatedBonusRemaining)*360 - 90))
+                            .onAppear {
+                                animatedBonusRemaining = card.bonusRemaining
+                                withAnimation(.linear(duration: card.bonusTimeRemaining)) {
+                                    animatedBonusRemaining = 0
+                                }
+                            }
+                    } else {
+                        Pie(startAngle: .degrees(0 - 90), endAngle: .degrees((1-card.bonusRemaining)*360 - 90))
+                    }
+                }
+                .padding(5)
+                .opacity(0.5)
                 Text(card.content)
                     .rotationEffect(.degrees(card.isMatched ? 360 : 0))
                     .animation(.linear(duration: 1).repeatForever(autoreverses: false))
