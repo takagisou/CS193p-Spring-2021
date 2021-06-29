@@ -103,7 +103,10 @@ class EmojiMemoryGame: ObservableObject {
         return model.cards
     }
     
-    var title = Theme.vehicles.title
+    var theme: Theme = .vehicles
+    var title: String {
+        return theme.title
+    }
     
     var score: Int {
         return model.points
@@ -116,14 +119,17 @@ class EmojiMemoryGame: ObservableObject {
     }
     
     func newGame() {
-        let theme = Theme.allCases.randomElement()!
-        title = theme.title
+        theme = Theme.allCases.randomElement()!
         model = EmojiMemoryGame.createMemoryGame(theme: theme)
     }
     
  
     func shuffle() {
         model.shuffle()
+    }
+    
+    func restart() {
+        model = EmojiMemoryGame.createMemoryGame(theme: theme) 
     }
     
 }
