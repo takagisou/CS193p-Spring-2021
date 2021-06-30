@@ -34,10 +34,11 @@ class EmojiArtDocument: ObservableObject {
         case .url(let url):
             // fetch the url
             DispatchQueue.global(qos: .userInitiated).async {
-                DispatchQueue.main.async {
-                    if let imageData = try? Data(contentsOf: url) {
-                        self.backgroundImage = UIImage(data: imageData)
-                    }
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self,
+                          let imageData = try? Data(contentsOf: url),
+                          self.emojiArt.background == .url(url) else { return }
+                    self.backgroundImage = UIImage(data: imageData)
                 }
             }
         case .imageData(let data):
