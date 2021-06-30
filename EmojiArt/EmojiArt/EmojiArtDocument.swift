@@ -33,8 +33,12 @@ class EmojiArtDocument: ObservableObject {
         switch emojiArt.background {
         case .url(let url):
             // fetch the url
-            if let imageData = try? Data(contentsOf: url) {
-                backgroundImage = UIImage(data: imageData)
+            DispatchQueue.global(qos: .userInitiated).async {
+                DispatchQueue.main.async {
+                    if let imageData = try? Data(contentsOf: url) {
+                        self.backgroundImage = UIImage(data: imageData)
+                    }
+                }
             }
         case .imageData(let data):
             backgroundImage = UIImage(data: data)
@@ -49,7 +53,7 @@ class EmojiArtDocument: ObservableObject {
         emojiArt.background = background
         print("background set to \(background)")
     }
-        
+    
     func addEmoji(_ emoji: String, at location: (x: Int, y: Int), size: CGFloat) {
         emojiArt.addEmoji(emoji, at: location, size: Int(size))
     }
