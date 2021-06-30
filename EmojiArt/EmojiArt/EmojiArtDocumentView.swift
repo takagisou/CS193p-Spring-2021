@@ -10,8 +10,12 @@ import SwiftUI
 struct EmojiArtDocumentView: View {
     
     @ObservedObject var document: EmojiArtDocument
-    @State private var zoomScale: CGFloat = 1
+    @State private var steadyStateZoomScale: CGFloat = 1
+    @GestureState private var gestureZoomScale: CGFloat = 1
     let defaultEmojiFontSize: CGFloat = 40
+    private var zoomScale: CGFloat {
+        steadyStateZoomScale * gestureZoomScale
+    }
     
     
     var body: some View {
@@ -44,6 +48,7 @@ struct EmojiArtDocumentView: View {
             .onDrop(of: [.plainText, .url, .image], isTargeted: nil) { providers, location in
                 drop(providers: providers, at: location, in: geometry)
             }
+            .gesture(zoomGesture())
         }
     }
     
@@ -112,7 +117,7 @@ struct EmojiArtDocumentView: View {
         
         let hZoom = size.width / image.size.width
         let vZoom = size.height / image.size.height
-        zoomScale = min(hZoom, vZoom)
+        steadyStateZoomScale = min(hZoom, vZoom)
     }
     
     private func doubleTapToZoom(in size: CGSize) -> some Gesture {
@@ -121,6 +126,16 @@ struct EmojiArtDocumentView: View {
                 withAnimation {
                     zoomToFit(document.backgroundImage, in: size)
                 }
+            }
+    }
+    
+    private func zoomGesture() -> some Gesture {
+        MagnificationGesture()
+            .updating($gestureZoomScale) { latestGestureScale, gestureZoomScale, transaction in
+                gestureZoomScale = latestGestureScale
+            }
+            .onEnded { gestureScaleAtEnd in
+                steadyStateZoomScale *= gestureScaleAtEnd
             }
     }
 
