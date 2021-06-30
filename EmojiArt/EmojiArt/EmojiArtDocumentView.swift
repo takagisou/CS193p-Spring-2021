@@ -28,7 +28,7 @@ struct EmojiArtDocumentView: View {
                         .position(convertFromEmojiCoordinates((0,0), in: geometry))
                 )
                 if document.backgroundImageFetchStatus == .fetching {
-                    ProgressView()
+                    ProgressView().scaleEffect(2)
                 }
                 ForEach(document.emojis) { emoji in
                     Text(emoji.text)
