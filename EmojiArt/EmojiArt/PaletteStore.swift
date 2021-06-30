@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct Palette: Identifiable {
+struct Palette: Identifiable, Codable {
     var name: String
     var emojis: String
     var id: Int
@@ -46,18 +46,27 @@ class PaletteStore: ObservableObject {
     }
     
     private func storeInUserDefaults() {
-        UserDefaults.standard.set(palettes.map { [$0.name, $0.emojis, String($0.id)] }, forKey: userDefaultsKey)
+        UserDefaults.standard.set(try? JSONEncoder().encode(palettes), forKey: userDefaultsKey)
+//        UserDefaults.standard.set(palettes.map { [$0.name, $0.emojis, String($0.id)] }, forKey: userDefaultsKey)
     }
     
     private func restoreFromUserDefaults() {
-        guard let palettesAsPropertyList = UserDefaults.standard.array(forKey: userDefaultsKey) as? [[String]] else { return }
         
-        for paletteAsArray in palettesAsPropertyList {
-            if paletteAsArray.count == 3, let id = Int(paletteAsArray[2]), !palettes.contains(where: { $0.id == id}) {
-                let palette = Palette(name: paletteAsArray[0], emojis: paletteAsArray[1], id: id)
-                palettes.append(palette)
-            }
+        guard let jsonData = UserDefaults.standard.data(forKey: userDefaultsKey),
+              let decodedPalettes = try? JSONDecoder().decode([Palette].self, from: jsonData) else {
+            return
         }
+        
+        palettes = decodedPalettes
+        
+//        guard let palettesAsPropertyList = UserDefaults.standard.array(forKey: userDefaultsKey) as? [[String]] else { return }
+//
+//        for paletteAsArray in palettesAsPropertyList {
+//            if paletteAsArray.count == 3, let id = Int(paletteAsArray[2]), !palettes.contains(where: { $0.id == id}) {
+//                let palette = Palette(name: paletteAsArray[0], emojis: paletteAsArray[1], id: id)
+//                palettes.append(palette)
+//            }
+//        }
     }
     
     // MARK: - Intent
