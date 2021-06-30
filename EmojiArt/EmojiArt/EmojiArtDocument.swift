@@ -7,8 +7,12 @@
 
 import SwiftUI
 
-
 class EmojiArtDocument: ObservableObject {
+    
+    enum BackgroundImageFetchStatus {
+        case idle
+        case fetching
+    }
     
     @Published private(set) var emojiArt: EmojiArtModel {
         didSet {
@@ -18,6 +22,7 @@ class EmojiArtDocument: ObservableObject {
         }
     }
     @Published var backgroundImage: UIImage?
+    @Published var backgroundImageFetchStatus: BackgroundImageFetchStatus = .idle
     
     var emojis: [EmojiArtModel.Emoji] { emojiArt.emojis }
     var background: EmojiArtModel.Background { emojiArt.background }
@@ -33,11 +38,14 @@ class EmojiArtDocument: ObservableObject {
         switch emojiArt.background {
         case .url(let url):
             // fetch the url
+            backgroundImageFetchStatus = .fetching
             DispatchQueue.global(qos: .userInitiated).async {
+                let imageData = try? Data(contentsOf: url)
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self,
-                          let imageData = try? Data(contentsOf: url),
+                          let imageData = imageData,
                           self.emojiArt.background == .url(url) else { return }
+                    self.backgroundImageFetchStatus = .idle
                     self.backgroundImage = UIImage(data: imageData)
                 }
             }
