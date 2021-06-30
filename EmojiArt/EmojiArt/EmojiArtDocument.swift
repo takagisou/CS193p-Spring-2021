@@ -16,6 +16,7 @@ class EmojiArtDocument: ObservableObject {
     
     private struct Autosave {
         static let filename = "Autosaved.emojiart"
+        static let coalescingInterval = 5.0
         static var url: URL? {
             let documentDirectry = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
             return documentDirectry?.appendingPathComponent(filename)
@@ -24,7 +25,7 @@ class EmojiArtDocument: ObservableObject {
     
     @Published private(set) var emojiArt: EmojiArtModel {
         didSet {
-            autosave()
+            scheduleAutosave()
             if emojiArt.background != oldValue.background {
                 fetchBackgroundImageDataIfNecessary()
             }
@@ -35,6 +36,8 @@ class EmojiArtDocument: ObservableObject {
     
     var emojis: [EmojiArtModel.Emoji] { emojiArt.emojis }
     var background: EmojiArtModel.Background { emojiArt.background }
+    
+    private var autosaveTImer: Timer?
     
     init() {
         if let url = Autosave.url, let autosavedEmojiArt = try? EmojiArtModel(url: url) {
@@ -64,6 +67,13 @@ class EmojiArtDocument: ObservableObject {
     private func autosave() {
         if let url = Autosave.url {
             save(to: url)
+        }
+    }
+    
+    private func scheduleAutosave() {
+        autosaveTImer?.invalidate()
+        autosaveTImer = Timer.scheduledTimer(withTimeInterval: Autosave.coalescingInterval, repeats: false) { _ in
+            self.autosave()
         }
     }
     
