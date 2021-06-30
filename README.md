@@ -23,3 +23,14 @@ var emojis = [
     "🛵", "🚗", "🚚", "🚇", "🛻", "🚝",
 ]
 ```
+
+# Lecture 11
+
+```swift
+// EmojiArt > PaletteStore.swift
+
+func palette(at index: Int) -> Palette {
+    let safeIndex = min(max(index, 0), palettes.count - 1) // <- smart
+    return palettes[safeIndex]
+}
+```
