@@ -21,6 +21,7 @@ struct PaletteChooser: View {
             paletteControlButton
             body(for: store.palette(at: chosenPaletteIndex))
         }
+        .clipped()
     }
     
     var paletteControlButton: some View {
