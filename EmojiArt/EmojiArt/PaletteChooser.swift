@@ -33,10 +33,7 @@ struct PaletteChooser: View {
             Image(systemName: "paintpalette")
         }
         .font(emojiFont)
-    }
-    
-    var rollTransition: AnyTransition {
-            .asymmetric(insertion: .offset(x: 0, y: emojiFontSize), removal: .offset(x: 0, y: -emojiFontSize))
+        .contextMenu { contextMenu }
     }
     
     func body(for palette: Palette) -> some View {
@@ -49,6 +46,35 @@ struct PaletteChooser: View {
         .transition(rollTransition)
     }
     
+    var rollTransition: AnyTransition {
+            .asymmetric(insertion: .offset(x: 0, y: emojiFontSize), removal: .offset(x: 0, y: -emojiFontSize))
+    }
+    
+    
+    @ViewBuilder
+    var contextMenu: some View {
+        AnimatedActionButton(title: "New", systemImage: "plus") {
+            store.insertPalette(named: "New", emojis: "", at: chosenPaletteIndex)
+        }
+        AnimatedActionButton(title: "Delete", systemImage: "minus") {
+            chosenPaletteIndex = store.removePalette(at: chosenPaletteIndex)
+        }
+        gotoMenu
+    }
+    
+    var gotoMenu: some View {
+        Menu {
+            ForEach(store.palettes) { palette in
+                AnimatedActionButton(title: palette.name) {
+                    if let index = store.palettes.index(matching: palette) {
+                        chosenPaletteIndex = index
+                    }
+                }
+            }
+        } label: {
+            Label("Go To", systemImage: "text.insert")
+        }
+    }
     
     let testEmojis = "😀😷🦠💉👻👀🐶🌲🌎🌞🔥🍎⚽️🚗🚓🚲🛩🚁🚀🛸🏠⌚️🎁🗝🔐❤️⛔️❌❓✅⚠️🎶➕➖🏳️"
 }
