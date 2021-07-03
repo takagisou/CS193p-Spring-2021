@@ -18,6 +18,7 @@ struct PaletteEditor: View {
             addEmojiSection
             removeEmojiSection
         }
+        .navigationTitle("Edit \(palette.name)")
         .frame(minWidth: 300, minHeight: 350)
     }
     
@@ -68,6 +69,6 @@ struct PaletteEditor_Previews: PreviewProvider {
         PaletteEditor(palette: .constant(PaletteStore(named: "Preview").palette(at: 4)))
             .previewLayout(.fixed(width: /*@START_MENU_TOKEN@*/300.0/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/350.0/*@END_MENU_TOKEN@*/))
         PaletteEditor(palette: .constant(PaletteStore(named: "Preview").palette(at: 2)))
-            .previewLayout(.fixed(width: /*@START_MENU_TOKEN@*/300.0/*@END_MENU_TOKEN@*/, height: 600)) 
+            .previewLayout(.fixed(width: /*@START_MENU_TOKEN@*/300.0/*@END_MENU_TOKEN@*/, height: 600))
     }
 }
