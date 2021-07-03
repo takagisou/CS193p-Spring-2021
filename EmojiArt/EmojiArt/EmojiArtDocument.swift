@@ -9,9 +9,10 @@ import SwiftUI
 
 class EmojiArtDocument: ObservableObject {
     
-    enum BackgroundImageFetchStatus {
+    enum BackgroundImageFetchStatus: Equatable {
         case idle
         case fetching
+        case failed(URL)
     }
     
     private struct Autosave {
@@ -87,10 +88,17 @@ class EmojiArtDocument: ObservableObject {
                 let imageData = try? Data(contentsOf: url)
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self,
-                          let imageData = imageData,
-                          self.emojiArt.background == .url(url) else { return }
+                          self.emojiArt.background == .url(url) else {
+                              return
+                          }
+                    
                     self.backgroundImageFetchStatus = .idle
-                    self.backgroundImage = UIImage(data: imageData)
+                    if let imageData = imageData {
+                        self.backgroundImage = UIImage(data: imageData)
+                    }
+                    if self.backgroundImage == nil {
+                        self.backgroundImageFetchStatus = .failed(url)
+                    }
                 }
             }
         case .imageData(let data):
