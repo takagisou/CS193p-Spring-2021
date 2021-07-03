@@ -9,7 +9,7 @@ import SwiftUI
 
 struct PaletteEditor: View {
     
-    @Binding private var palette: Palette = PaletteStore(named: "Test").palette(at: 2)
+    @Binding var palette: Palette
     
     var body: some View {
         Form {
@@ -22,7 +22,8 @@ struct PaletteEditor: View {
 
 struct PaletteEditor_Previews: PreviewProvider {
     static var previews: some View {
-        PaletteEditor()
+        Text("Fix Me!")
+//        PaletteEditor()
             .previewLayout(.fixed(width: /*@START_MENU_TOKEN@*/300.0/*@END_MENU_TOKEN@*/, height: /*@START_MENU_TOKEN@*/350.0/*@END_MENU_TOKEN@*/))
     }
 }

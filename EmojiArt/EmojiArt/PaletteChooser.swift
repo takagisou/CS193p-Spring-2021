@@ -46,7 +46,7 @@ struct PaletteChooser: View {
         .id(palette.id)
         .transition(rollTransition)
         .popover(isPresented: $editing) {
-            PaletteEditor()
+            PaletteEditor(palette: $store.palettes[chosenPaletteIndex])
         }
     }
     
