@@ -60,6 +60,7 @@
 		26483304268D2F210043B43F /* PaletteChooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteChooser.swift; sourceTree = "<group>"; };
 		26483306268E778B0043B43F /* PaletteEditor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteEditor.swift; sourceTree = "<group>"; };
 		264833082690A2D10043B43F /* PaletteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaletteManager.swift; sourceTree = "<group>"; };
+		26B0ADD626924FE300289545 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +111,7 @@
 		262FD2DA268B6CAE003F3170 /* EmojiArt */ = {
 			isa = PBXGroup;
 			children = (
+				26B0ADD626924FE300289545 /* Info.plist */,
 				262FD2DB268B6CAF003F3170 /* EmojiArtApp.swift */,
 				262FD303268B6D05003F3170 /* EmojiArtModel.swift */,
 				26483304268D2F210043B43F /* PaletteChooser.swift */,
@@ -455,6 +457,10 @@
 				DEVELOPMENT_TEAM = S99E9U4S8J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EmojiArt/Info.plist;
+				INFOPLIST_KEY_CFBundleExecutable = EmojiArt;
+				INFOPLIST_KEY_CFBundleName = EmojiArt;
+				INFOPLIST_KEY_CFBundleVersion = 1;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -486,6 +492,10 @@
 				DEVELOPMENT_TEAM = S99E9U4S8J;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EmojiArt/Info.plist;
+				INFOPLIST_KEY_CFBundleExecutable = EmojiArt;
+				INFOPLIST_KEY_CFBundleName = EmojiArt;
+				INFOPLIST_KEY_CFBundleVersion = 1;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
