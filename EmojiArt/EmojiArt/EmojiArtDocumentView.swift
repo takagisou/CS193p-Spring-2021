@@ -28,7 +28,7 @@ struct EmojiArtDocumentView: View {
     }
     
     
-    let defaultEmojiFontSize: CGFloat = 40
+    @ScaledMetric var defaultEmojiFontSize: CGFloat = 40
     private var zoomScale: CGFloat {
         steadyStateZoomScale * gestureZoomScale
     }
